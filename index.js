@@ -14,13 +14,34 @@ console.log(process.env.DB_USER);
 
 const uri = "mongodb://localhost:27017";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-});
 
+async function run(){
+    try{
+        const collectionOfServices = client.db('smile-bright').collection('services');
+        app.get('/home',async(req,res)=>{
+            const query = {};
+            const cursor = collectionOfServices.find(query).limit(3); 
+            const servicesForHome = await cursor.toArray();
+            res.send(servicesForHome);
 
+        })
+        app.get('/services',async(req,res)=>{
+            const query = {};
+            const cursor = collectionOfServices.find(query); 
+            const services = await cursor.toArray();
+            res.send(services);
+
+        })
+        
+
+    }
+    finally{
+
+    }
+
+}
+
+run().catch(err => console.error(err));
 app.get('/',(req,res)=>{
     res.send("smile bright server running")
 })
