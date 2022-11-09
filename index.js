@@ -51,16 +51,27 @@ async function run(){
 
 
         // review API
-        app.get('/display-review/:id',async(req,res)=>{
-            const id = req.params.id;
-            const query = {serrviceId: id};
-            const services = await collectionOfreview.find(query); 
-            res.send(services);
-
+        app.get('/all-review',async(req,res)=>{
+            let query = {};
+            if(req.query.serrviceId){
+                query = {
+                    serrviceId: req.query.serrviceId
+                }
+            }
+            const cursor = collectionOfreview.find(query);
+            const review = await cursor.toArray();
+            res.send(review);
         })
-        app.post("/review",async(req, res)=>{
+        app.post("/add-review",async(req, res)=>{
             const review = req.body;            
             const result = await collectionOfreview.insertOne(review);
+            console.log(result);
+            res.send(result);
+        })
+
+        app.post("/add-service",async(req, res)=>{
+            const service = req.body;            
+            const result = await collectionOfServices.insertOne(service);
             console.log(result);
             res.send(result);
         })
