@@ -14,7 +14,7 @@ console.log(process.env.DB_USER);
 
 // const uri = "mongodb://localhost:27017";
 //vJaDPX3fm7S5fPbB
-const uri = "mongodb+srv://dbuser1:vJaDPX3fm7S5fPbB@cluster0.4t6fenq.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://DB_USER:DB_PASSWORD@cluster0.4t6fenq.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 async function run(){
