@@ -49,7 +49,7 @@ async function run(){
             
         })
 
-
+        
         // review API
         app.get('/review-add',async(req,res)=>{
             let query = {};
@@ -91,6 +91,19 @@ async function run(){
             const id = req.params.id;
             const query = {_id: ObjectId(id)};
             const result = await collectionOfreview.deleteOne(query);
+            res.send(result);
+        })
+
+        app.patch('/my-review/:id', async(req, res)=>{
+            const id = req.params.id;
+            const review = req.body;
+            const query = {_id: ObjectId(id)};
+            const updateDoc = {
+                $set:{
+                    comment:review.comment
+                }
+            }
+            const result = await collectionOfreview.updateOne(query, updateDoc);
             res.send(result);
         })
         
