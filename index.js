@@ -41,7 +41,7 @@ async function run(){
             res.send(services);
 
         })
-        app.get('/review/:id',async(req,res)=>{
+        app.get('/add-review/:id',async(req,res)=>{
             const id = req.params.id;
             const query = {_id: ObjectId(id)};
             const services = await collectionOfServices.findOne(query); 
@@ -51,11 +51,22 @@ async function run(){
 
 
         // review API
-        app.get('/all-review',async(req,res)=>{
+        app.get('/review-add',async(req,res)=>{
             let query = {};
             if(req.query.serrviceId){
                 query = {
                     serrviceId: req.query.serrviceId
+                }
+            }
+            const cursor = collectionOfreview.find(query);
+            const review = await cursor.toArray();
+            res.send(review);
+        })
+        app.get('/my-review',async(req,res)=>{
+            let query = {};
+            if(req.query.email){
+                query = {
+                    email: req.query.email
                 }
             }
             const cursor = collectionOfreview.find(query);
@@ -73,6 +84,13 @@ async function run(){
             const service = req.body;            
             const result = await collectionOfServices.insertOne(service);
             console.log(result);
+            res.send(result);
+        })
+
+        app.delete('/my-review/:id', async(req, res)=>{
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const result = await collectionOfreview.deleteOne(query);
             res.send(result);
         })
         
